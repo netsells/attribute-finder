@@ -1,0 +1,25 @@
+{
+    "name": "netsells/attribute-finder",
+    "description": "A simple package that allows you to get all classes that have a given attribute in a specified directory",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Hutchison",
+            "email": "adam.hutchison@netsells.co.uk"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "symfony/finder": "^5.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Netsells\\AttributeFinder\\": "src",
+            "Netsells\\AttributeFinder\\Tests\\": "tests"
+        }
+    }
+}
