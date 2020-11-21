@@ -17,11 +17,7 @@ class AttributeFinder
     {
         $classes = [];
 
-        $explodedAttribute = explode('\\', $attribute);
-        $className = array_pop($explodedAttribute);
-
-        // Match fully qualified attribute aswell as attributes where arguments are and aren't passed
-        $files = $this->finder->contains("/\#\[(.*?){$className}(\(.*?\))?\]/");
+        $files = $this->getClassPaths($attribute);
 
         foreach ($files as $file) {
             if ($class = $this->getClassFromPath($file)) {
@@ -30,6 +26,15 @@ class AttributeFinder
         }
 
         return $classes;
+    }
+
+    private function getClassPaths(string $attribute): iterable
+    {
+        $explodedAttribute = explode('\\', $attribute);
+        $className = array_pop($explodedAttribute);
+
+        // Match fully qualified attribute aswell as attributes where arguments are and aren't passed
+        return $this->finder->contains("/\#\[(.*?){$className}(\(.*?\))?\]/");
     }
 
     private function getClassFromPath(string $path): ?string

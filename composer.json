@@ -3,6 +3,10 @@
     "description": "A simple package that allows you to get all classes that have a given attribute in a specified directory",
     "type": "library",
     "license": "MIT",
+     "keywords": [
+        "attributes",
+        "search"
+    ],
     "authors": [
         {
             "name": "Adam Hutchison",
