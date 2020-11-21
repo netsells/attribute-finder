@@ -6,4 +6,8 @@ namespace Netsells\AttributeFinder\Tests\TestsFiles;
 class TestAttributeTwo
 {
     // Dummy attribute for testing purposes
+    public function __construct($arg1, $arg2)
+    {
+        //
+    }
 }

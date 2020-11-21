@@ -20,7 +20,7 @@ class AttributeFinder
         $explodedAttribute = explode('\\', $attribute);
         $className = array_pop($explodedAttribute);
 
-        // Match full qualified attribute aswell as attributes where arguments are and aren't passed
+        // Match fully qualified attribute aswell as attributes where arguments are and aren't passed
         $files = $this->finder->contains("/\#\[(.*?){$className}(\(.*?\))?\]/");
 
         foreach ($files as $file) {
