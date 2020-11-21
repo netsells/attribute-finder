@@ -34,7 +34,7 @@ class AttributeFinder
         $className = array_pop($explodedAttribute);
 
         // Match fully qualified attribute aswell as attributes where arguments are and aren't passed
-        return $this->finder->contains("/^\s*(\#\[(.*?)FiltersModel(\(.*?\))?\])/m");
+        return $this->finder->contains("/^\s*(\#\[(.*?){$className}(\(.*?\))?\])/m");
     }
 
     private function getClassFromPath(string $path): ?string
