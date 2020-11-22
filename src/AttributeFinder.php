@@ -2,55 +2,34 @@
 
 namespace Netsells\AttributeFinder;
 
+use Generator;
+use Netsells\AttributeFinder\Exceptions\InvalidDirectoryException;
+use ReflectionClass;
 use Symfony\Component\Finder\Finder;
 
 class AttributeFinder
 {
     private Finder $finder;
+    private ClassNameResolver $classNameResolver;
 
     public function __construct(string $directory)
     {
+        if (!is_dir($directory)) {
+            throw new InvalidDirectoryException("{$directory} is not a valid directory");
+        }
+
         $this->finder = (new Finder())->in($directory)->files()->name('*.php');
+        $this->classNameResolver = new ClassNameResolver($directory);
     }
 
-    public function getClassesWithAttribute(string $attribute): array
+    public function getClassesWithAttribute(string $attribute): Generator
     {
-        $classes = [];
+        foreach ($this->finder as $file) {
+            $reflector = new ReflectionClass($this->classNameResolver->getClassFromPath($file));
 
-        $files = $this->getClassPaths($attribute);
-
-        foreach ($files as $file) {
-            if ($class = $this->getClassFromPath($file)) {
-                $classes[] = $class;
+            if ($reflector->getAttributes($attribute)) {
+                yield $reflector;
             }
         }
-
-        return $classes;
-    }
-
-    private function getClassPaths(string $attribute): iterable
-    {
-        $explodedAttribute = explode('\\', $attribute);
-        $className = array_pop($explodedAttribute);
-
-        // Match fully qualified attribute aswell as attributes where arguments are and aren't passed
-        return $this->finder->contains("/^\s*(\#\[(.*?){$className}(\(.*?\))?\])/m");
-    }
-
-    private function getClassFromPath(string $path): ?string
-    {
-        $fileSource = file_get_contents($path);
-
-        preg_match('#^namespace\s+(.+?);$#sm', $fileSource, $matches);
-
-        if (!isset($matches[1])) {
-            return null;
-        }
-
-        $namespace = $matches[1] . '\\';
-
-        $class = $namespace . str_replace('.php', '', basename($path));
-
-        return $class;
     }
 }

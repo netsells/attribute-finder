@@ -1,8 +1,8 @@
 <?php
 
-namespace Netsells\AttributeFinder\Tests\TestsFiles\TestClasses;
+namespace Netsells\AttributeFinder\Tests\TestFiles\TestClasses;
 
-use Netsells\AttributeFinder\Tests\TestsFiles\TestAttributeOne;
+use Netsells\AttributeFinder\Tests\TestFiles\TestAttributeOne;
 
 #[TestAttributeOne()]
 class TestAttributeOneClassTwo

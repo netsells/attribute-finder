@@ -1,11 +1,9 @@
 <?php
 
-namespace Netsells\AttributeFinder\Tests\TestsFiles;
-
-use Netsells\AttributeFinder\Tests\TestsFiles\TestAttributeOne;
+namespace Netsells\AttributeFinder\Tests\TestFiles;
 
 #[TestAttributeOne]
-class TestAttributeClassOne
+class TestAttributeOneClass
 {
     // Dummy class for testing purposes
 }

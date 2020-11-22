@@ -1,6 +1,6 @@
 <?php
 
-namespace Netsells\AttributeFinder\Tests\TestsFiles\TestClasses;
+namespace Netsells\AttributeFinder\Tests\TestFiles\TestClasses;
 
 class InvalidClass
 {

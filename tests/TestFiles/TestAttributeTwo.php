@@ -1,6 +1,6 @@
 <?php
 
-namespace Netsells\AttributeFinder\Tests\TestsFiles;
+namespace Netsells\AttributeFinder\Tests\TestFiles;
 
 #[\Attribute]
 class TestAttributeTwo

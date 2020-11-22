@@ -2,13 +2,16 @@
 
 namespace Netsells\AttributeFinder\Tests\Feature;
 
+use Generator;
+use ReflectionClass;
 use PHPUnit\Framework\TestCase;
 use Netsells\AttributeFinder\AttributeFinder;
-use Netsells\AttributeFinder\Tests\TestsFiles\TestAttributeOne;
-use Netsells\AttributeFinder\Tests\TestsFiles\TestAttributeTwo;
-use Netsells\AttributeFinder\Tests\TestsFiles\TestAttributeOneClass;
-use Netsells\AttributeFinder\Tests\TestsFiles\TestClasses\TestAttributeTwoClass;
-use Netsells\AttributeFinder\Tests\TestsFiles\TestClasses\TestAttributeOneClassTwo;
+use Netsells\AttributeFinder\Exceptions\InvalidDirectoryException;
+use Netsells\AttributeFinder\Tests\TestFiles\TestAttributeOne;
+use Netsells\AttributeFinder\Tests\TestFiles\TestAttributeTwo;
+use Netsells\AttributeFinder\Tests\TestFiles\TestAttributeOneClass;
+use Netsells\AttributeFinder\Tests\TestFiles\TestClasses\TestAttributeTwoClass;
+use Netsells\AttributeFinder\Tests\TestFiles\TestClasses\TestAttributeOneClassTwo;
 
 class AttributeFinderTest extends TestCase
 {
@@ -22,49 +25,83 @@ class AttributeFinderTest extends TestCase
 
     public function testGetsAttributesInDirectory()
     {
-        $actual = $this->finder->getClassesWithAttribute(TestAttributeOne::class);
+        $actualGenerator = $this->finder->getClassesWithAttribute(TestAttributeOne::class);
 
-        $expected = [
-            TestAttributeOneClassTwo::class,
-            TestAttributeOneClass::class,
+        $expectedClasses = [
+            new ReflectionClass(TestAttributeOneClassTwo::class),
+            new ReflectionClass(TestAttributeOneClass::class),
         ];
 
-        $this->assertIsArray($actual);
-        $this->assertEquals($expected, $actual);
+        $actualClasses = [];
+
+        foreach ($actualGenerator as $class) {
+            $actualClasses[] = $class;
+        }
+
+        $this->assertEquals(Generator::class, $actualGenerator::class);
+        $this->assertCount(2, $actualClasses);
+        $this->assertEquals($expectedClasses, $actualClasses);
     }
 
     public function testGetsAlternativeAttributeClasses()
     {
-        $actual = $this->finder->getClassesWithAttribute(TestAttributeTwo::class);
+        $actualGenerator = $this->finder->getClassesWithAttribute(TestAttributeTwo::class);
 
-        $expected = [
-            TestAttributeTwoClass::class,
+        $expectedClasses = [
+            new ReflectionClass(TestAttributeTwoClass::class),
         ];
 
-        $this->assertIsArray($actual);
-        $this->assertEquals($expected, $actual);
+        $actualClasses = [];
+
+        foreach ($actualGenerator as $class) {
+            $actualClasses[] = $class;
+        }
+
+        $this->assertEquals(Generator::class, $actualGenerator::class);
+        $this->assertCount(1, $actualClasses);
+        $this->assertEquals($expectedClasses, $actualClasses);
     }
 
     public function testReturnsEmptyArrayForInvalidAttribute()
     {
-        $actual = $this->finder->getClassesWithAttribute('InvalidAttribute');
+        $actualGenerator = $this->finder->getClassesWithAttribute('InvalidAttribute');
 
-        $expected = [];
+        $expectedClasses = [];
 
-        $this->assertIsArray($actual);
-        $this->assertEquals($expected, $actual);
+        $actualClasses = [];
+
+        foreach ($actualGenerator as $class) {
+            $actualClasses[] = $class;
+        }
+
+        $this->assertEquals(Generator::class, $actualGenerator::class);
+        $this->assertCount(0, $actualClasses);
+        $this->assertEquals($expectedClasses, $actualClasses);
     }
 
     public function testGetsAllBaseAttributes()
     {
-        $actual = $this->finder->getClassesWithAttribute(\Attribute::class);
+        $actualGenerator = $this->finder->getClassesWithAttribute(\Attribute::class);
 
-        $expected = [
-            TestAttributeOne::class,
-            TestAttributeTwo::class,
+        $expectedClasses = [
+            new ReflectionClass(TestAttributeOne::class),
+            new ReflectionClass(TestAttributeTwo::class),
         ];
 
-        $this->assertIsArray($actual);
-        $this->assertEquals($expected, $actual);
+        $actualClasses = [];
+
+        foreach ($actualGenerator as $class) {
+            $actualClasses[] = $class;
+        }
+
+        $this->assertEquals(Generator::class, $actualGenerator::class);
+        $this->assertCount(2, $actualClasses);
+        $this->assertEquals($expectedClasses, $actualClasses);
+    }
+
+    public function testThrowsExceptionForInvalidDirectory()
+    {
+        $this->expectException(InvalidDirectoryException::class);
+        new AttributeFinder('invalid directory');
     }
 }
