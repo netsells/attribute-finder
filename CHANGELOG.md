@@ -15,3 +15,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * [1.0.1](#400---2020-11-21) - Fixes PSR4 Auto loading for Tests
 * [1.0.2](#400---2020-11-21) - Allows finder to ignore commented out attributes
 * [1.0.3](#400---2020-11-21) - Bugfix
+* [2.0.0](#400---2020-11-23) - Refactors code to use reflection and genorators
