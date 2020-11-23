@@ -12,6 +12,9 @@ class AttributeFinder
     private Finder $finder;
     private ClassNameResolver $classNameResolver;
 
+    /**
+     * @throws string InvalidDirectoryException
+     */
     public function __construct(string $directory)
     {
         if (!is_dir($directory)) {
@@ -22,7 +25,10 @@ class AttributeFinder
         $this->classNameResolver = new ClassNameResolver($directory);
     }
 
-    public function getClassesWithAttribute(string $attribute): Generator
+    /**
+     * @return iterable<ReflectionClass>
+     */
+    public function getClassesWithAttribute(string $attribute): iterable
     {
         foreach ($this->finder as $file) {
             $reflector = new ReflectionClass($this->classNameResolver->getClassFromPath($file));

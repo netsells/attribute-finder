@@ -9,6 +9,9 @@ class ClassNameResolver
     private ?string $rootNamespace = null;
     private string $directory;
 
+    /**
+     * @throws string InvalidDirectoryException
+     */
     public function __construct(string $directory)
     {
         if (!is_dir($directory)) {
