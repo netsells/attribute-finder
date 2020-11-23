@@ -35,12 +35,12 @@ class ClassNameResolver
         // get diff between directory and path
         $pathDiff =  str_replace($this->directory, '', $path);
 
-        // remove actual class name
+        // remove actual class file name and convert forward slashed into backslashes
         $explodedPathDiff = explode('/', $pathDiff);
         array_pop($explodedPathDiff);
-
         $namespaceDiff = implode('\\', $explodedPathDiff);
 
+        // Remove the namespace diff from the full class namespace to leave the root namespace
         $this->rootNamespace = trim(str_replace($namespaceDiff, '', $namespace), '\\');
     }
 
@@ -56,10 +56,12 @@ class ClassNameResolver
 
     private function getClassName(string $path): string
     {
-        $string = str_replace($this->directory, $this->rootNamespace, $path);
+        // replace the root directory with the root namespace - assumes PSR4
+        $className = str_replace($this->directory, $this->rootNamespace, $path);
 
-        $string = str_replace('/', '\\', $string);
+        $className = str_replace('/', '\\', $className);
 
-        return str_replace(basename($path), basename($path, '.php'), $string);
+        // replace the file name with the class name
+        return str_replace(basename($path), basename($path, '.php'), $className);
     }
 }
