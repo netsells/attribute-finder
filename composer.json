@@ -2,6 +2,7 @@
     "name": "netsells/attribute-finder",
     "description": "A simple package that allows you to get all classes that have a given attribute in a specified directory",
     "type": "library",
+    "version": "2.1.0",
     "license": "MIT",
      "keywords": [
         "attributes",
