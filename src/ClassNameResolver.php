@@ -49,7 +49,8 @@ class ClassNameResolver
 
     private function getNamespaceFromPath(string $path): string
     {
-        $fileSource = file_get_contents($path);
+        //Need to convert Windows line endings to proper ones
+        $fileSource = str_replace("\r\n", "\r", file_get_contents($path));
 
         preg_match('#^namespace\s+(.+?);$#sm', $fileSource, $matches);
 
